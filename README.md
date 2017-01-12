@@ -1,2 +1,2 @@
-# script
-Useful scripts for administrative functions.
+# py-script
+Useful python scripts for administrative functions.
