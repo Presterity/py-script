@@ -5,7 +5,7 @@ Useful python scripts for administrative functions.
 
 ### Requirements
 
-* Python 3: http://docs.python-guide.org/en/latest/dev/virtualenvs/
+* Python 3: https://www.python.org/downloads/
 * virtualenv: http://docs.python-guide.org/en/latest/dev/virtualenvs/
 
 ### Getting Started
