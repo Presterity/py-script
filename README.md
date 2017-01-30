@@ -5,17 +5,19 @@ Useful python scripts for administrative functions.
 
 ### Requirements
 
+* git: https://git-scm.com/downloads
 * Python 3: https://www.python.org/downloads/
 * virtualenv: http://docs.python-guide.org/en/latest/dev/virtualenvs/
 
 ### Getting Started
 
-1. Install Python 3 and virtualenv.
-1. Go to preferred workspace directory.
-2. virtualenv venvs/presterity
-3. source venvs/presterity/bin/activate
-4. git clone git@github.com:/presterity/py-script
-5. pip install -r requirements.txt
+1. Install git, Python 3, and virtualenv.
+1. Go to preferred workspace directory, e.g. ~/projects
+1. virtualenv --python python3 --prompt presterity- venvs/presterity
+1. source venvs/presterity/bin/activate
+1. git clone git@github.com:presterity/py-script
+1. cd py-script
+1. pip install -r requirements.txt
 
 
 ## Script Index
