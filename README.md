@@ -16,6 +16,7 @@ Useful python scripts for administrative functions.
 1. virtualenv --python python3 --prompt presterity- venvs/presterity
 1. source venvs/presterity/bin/activate
 1. git clone git@github.com:presterity/py-script
+1. cd py-script
 1. pip install -r requirements.txt
 
 
