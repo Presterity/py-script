@@ -5,12 +5,13 @@ from datetime import datetime
 import json
 from typing import List, Tuple
 import requests
+import logging
 
 
 RAINDROP_BOOKMARK_API = 'https://raindrop.io/api/raindrops/{collection_id}'
-PAGE_SIZE = 40  # max number of results per page 
+DEFAULT_PAGE_SIZE = 40  # max number of results per page 
 
-def extract_bookmarks(collection_id: int) -> dict:
+def extract_bookmarks(collection_id: int, page_size: int=DEFAULT_PAGE_SIZE, log: logging.Logger=None) -> dict:
     """Retrieve all bookmarks in specified collection; write results as JSON to stdout.
 
     For documentation on bookmark JSON: https://raindrop.io/dev/docs#bookmarks
@@ -18,7 +19,7 @@ def extract_bookmarks(collection_id: int) -> dict:
     :param collection_id: int that is Raindrop collection id
     """
     page_number = 0
-    bookmarks, collection_size = get_bookmarks_on_page(collection_id, page_number=page_number)
+    bookmarks, collection_size = get_bookmarks_on_page(collection_id, page_number, page_size, log)
     bookmarks_retrieved = len(bookmarks)
     collection_data = {'collection_id': collection_id,
                        'request_date': datetime.utcnow().isoformat(),
@@ -27,7 +28,7 @@ def extract_bookmarks(collection_id: int) -> dict:
 
     while bookmarks_retrieved < collection_size:
         page_number += 1
-        bookmarks, new_size = get_bookmarks_on_page(collection_id, page_number=page_number)
+        bookmarks, new_size = get_bookmarks_on_page(collection_id, page_number, page_size, log)
         if new_size != collection_size:
             raise ValueError("Collection changed size during extract; please re-run")
         bookmarks_retrieved += len(bookmarks)
@@ -35,7 +36,7 @@ def extract_bookmarks(collection_id: int) -> dict:
 
     return collection_data
     
-def get_bookmarks_on_page(collection_id: int, page_number: int=0, log: object=None ) -> Tuple[List[dict], int]:
+def get_bookmarks_on_page(collection_id: int, page_number: int=0, page_size: int=DEFAULT_PAGE_SIZE, log: logging.Logger=None) -> Tuple[List[dict], int]:
     """Retrieve collection bookmarks for specified page number.
 
     :param collection_id: int that is Raindrop collection id
@@ -44,7 +45,7 @@ def get_bookmarks_on_page(collection_id: int, page_number: int=0, log: object=No
     :return: list of JSON objects that are Raindrop bookmarks
     """
     uri = RAINDROP_BOOKMARK_API.format(collection_id=collection_id)
-    query_params = {'page': page_number, 'perpage': PAGE_SIZE}
+    query_params = {'page': page_number, 'perpage': page_size}
     if log is not None:
     	log.debug("Making request to %s", uri)
     response_data = requests.get(uri, params=query_params).json()
