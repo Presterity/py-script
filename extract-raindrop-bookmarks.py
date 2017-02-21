@@ -1,14 +1,15 @@
 """
 Script to retrieve all links from Raindrop Presterity collection.
 """
-
 import argparse
 import json
 import logging
 import sys
 from raindrop_api import extract_bookmarks
 
-DEFAUlT_PAGE_SIZE = 40
+log = logging.getLogger(__name__)
+
+DEFAULT_PAGE_SIZE = 40
 PRESTERITY_COLLECTION_ID = 2021037
 
 def build_parser() -> argparse.ArgumentParser:
@@ -22,8 +23,8 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument('--collection', '-c', type=int, default=PRESTERITY_COLLECTION_ID, 
                         help=help_msg)
     help_msg = 'number of requested bookmarks per query; default is {0} (max allowed)'.format(
-        DEFAUlT_PAGE_SIZE)
-    parser.add_argument('--page-size', '-s', type=int, default=DEFAUlT_PAGE_SIZE, help=help_msg)
+        DEFAULT_PAGE_SIZE)
+    parser.add_argument('--page-size', '-s', type=int, default=DEFAULT_PAGE_SIZE, help=help_msg)
     parser.add_argument('--outfile', '-o', help='file for results; default is stdout')
     parser.add_argument('--verbose', '-v', action='store_true', help='log level DEBUG')
     return parser
@@ -54,7 +55,6 @@ if __name__ == '__main__':
     args = build_parser().parse_args()
 #    log = init_logging(verbose=args.verbose, very_verbose=args.very_verbose)
     logging.basicConfig(level=logging.WARN)
-    log = logging.getLogger(__name__)
     if args.verbose:
         log.setLevel(logging.DEBUG)
     else:
@@ -64,7 +64,7 @@ if __name__ == '__main__':
     if args.outfile:
         sys.stdout = open(args.outfile, 'w')
 
-    collection_data = extract_bookmarks(args.collection, args.page_size, log)
+    collection_data = extract_bookmarks(args.collection, args.page_size)
     # Serialize data and write to stdout
     sys.stdout.write(json.dumps(collection_data, indent = 4))
 
