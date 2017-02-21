@@ -22,9 +22,22 @@ Useful python scripts for administrative functions.
 
 ## Script Index
 
-## extract-raindrop-bookmarks.py
+### extract-raindrop-bookmarks.py
 
 This script uses the [Raindrop API](https://raindrop.io/dev/docs) to retrieve all the bookmark data for a particular collection.
 By default, the bookmarks from the [Presterity collection](https://raindrop.io/app/#/collection/2021037) are extracted. The retrieved data is written as JSON to 
 stdout or to a file along with metadata about the extract itself. Run with -h for usage.
 
+### archive-links.py
+
+This script uses the [Wayback Machine](https://archive.org/web/) to archive all of the bookmarks from a particular raindrop collection. By default, the bookmarks from the [Presterity collection](https://raindrop.io/app/#/collection/2021037) are archived. The archived URLs are written as JSON to stdout or to a file. Run with -h for usage.
+
+## Module Index
+
+### raindrop_api.py
+
+General-purpose API for retrieving bookmarks from the [Raindrop API](https://raindrop.io/dev/docs)
+
+### wayback_api.py
+
+General-purpose API for accessing the [Wayback Machine](https://archive.org/web/)
